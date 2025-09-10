@@ -25,7 +25,7 @@ Each contributed binary should be accompanied by metadata in the table format be
 | Sample ID             | Vendor / Model            | Firmware Ver.                     | Variant          | Link                                                                 |
 | --------------------- | ------------------------- | --------------------------------- | ---------------- | -------------------------------------------------------------------- |
 | jhttpd.NR500.EA       | NR500-EA                  | RG500UEAABxCOMSLICv3.4.2731.16.43 | jhttpd fork      | [link](https://github.com/actuator/DEFCON-33/blob/main/jhttpd-Model-NR500-EA-Firmware-RG500UEAABxCOMSLICv3-4-2731-16-43) |
-| jhttpd.dionlink.M7628N| Dionlink M7628N           | v1.0.1802.10.08.P4                | jhttpd fork      | [link](https://github.com/actuator/DEFCON-33/blob/main/jhttpd-dionlink-M7628NNxlSPv2xUI_v1-0-1802-10-08_P4) |
+| jhttpd.dionlink.M7628N| Tuoshi/Dionlink LT15D & LT21B 4G Wi-Fi | v1.0.1802.10.08.P4                | jhttpd fork      | [link](https://github.com/actuator/DEFCON-33/blob/main/jhttpd-dionlink-M7628NNxlSPv2xUI_v1-0-1802-10-08_P4) |
 | kthy_topsw_goahead.topsw.GC111      | KTHY TopSW GC111-GL-LM321 | V3.0.20191211                     | OEM GoAhead fork | [link](https://github.com/actuator/DEFCON-33/blob/main/kthy_topsw_goahead_GC111-GL-LM321_V3.0_20191211) |
 | webserver.KuWFi.AC900 | KuWFi AC900               | V1.0.13                           | OEM GoAhead fork | [link](https://github.com/actuator/DEFCON-33/blob/main/webserver-KuWFi-AC900_FW_V1_0_13) |
 
