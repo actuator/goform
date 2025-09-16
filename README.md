@@ -3,9 +3,9 @@
 # GoAhead Museum – Research Dataset
 
 This repository is a **living archive of embedded GoAhead / jhttpd web server binaries** collected from router and IoT firmware images.  
-It exists to **preserve historically significant embedded web stacks** and make them easily accessible for security research, reverse engineering, and long-term study.
+It exists to preserve historically significant embedded web stacks and make them easily accessible for security research, reverse engineering, and long-term study.
 
-GoAhead and its forks powered countless low-cost routers, access points, cameras, and IoT devices from the late 1990s through the 2010s. They introduced the `/goform` pattern for handling web requests, which became a de facto standard in many OEM firmware packages. As devices age out and firmware images disappear, this codebase — and its vulnerabilities — are at risk of being lost to history.  
+GoAhead and its forks powered countless low-cost routers, access points, cameras, and IoT devices from the late 1990s through the 2020s. They introduced the `/goform` pattern for handling web requests, which became a de facto standard in many OEM firmware packages. As devices age out and firmware images disappear, this codebase — and its vulnerabilities — are at risk of being lost to history.  
 
 ---
 
@@ -74,10 +74,78 @@ They are not meant to encourage unauthorized access or exploitation of live syst
 
 ---
 
-## References & Related Work
+## Exploring `/goform` Endpoints
 
-* [Examples of jhttpd/GoAhead forks](https://github.com/actuator/DEFCON-33)  
-* [GoAhead WebServer overview (old upstream site)](https://web.archive.org/web/*/http://embedthis.com/goahead/)  
+GoAhead and its forks use a **URL prefix `/goform`** to register “form handlers” inside the binary. These handlers process login forms, configuration changes, and other CGI-like actions. Researchers can use several approaches to enumerate them:
+
+### 1. Scan Static Files  
+Most web UI pages reference `/goform/...` as the form action or AJAX URL. Run:
+
+## Quick Guide: Finding the Web Server Binary Using `ps`
+
+On stripped-down BusyBox devices you usually don’t have `find`, `which`, or `file`, but you **do** have `ps`. You can use it to identify which process is the embedded web server.
+
+### 1. List Running Processes  
+Run:
+
+```sh
+ps
+```
+
+Look for entries that resemble:
+
+```
+  PID USER       VSZ STAT COMMAND
+  635 admin     1864 S    goahead
+```
+
+or:
+
+```
+  PID USER       VSZ STAT COMMAND
+  635 admin     1864 S    httpd
+```
+
+### 2. Common Names  
+Typical embedded web server binaries include:
+- `goahead`
+- `httpd` or `mini_httpd`
+- `lighttpd`
+- `jhttpd`
+
+The `COMMAND` column tells you the binary name.
+
+### 3. Locate the Binary Path  
+Once you see the process name (e.g., `goahead`), check typical directories:
+
+```sh
+ls /bin/goahead
+ls /sbin/goahead
+ls /usr/bin/goahead
+ls /usr/sbin/goahead
+```
+
+Repeat for `httpd`, `mini_httpd`, or whatever name appeared in `ps`.
+
+### 4. Verify with `grep`  
+If you’re unsure, you can also run:
+
+```sh
+grep -i goahead /etc/* 2>/dev/null
+grep -i httpd /etc/* 2>/dev/null
+```
+
+Startup scripts sometimes reference the binary or its configuration.
+
+### 5. Copy or Analyze It  
+Once you find the binary path, you can:
+- Copy it to a writable directory or the web root.
+- Download it to your PC for `strings` / `binwalk` / reverse engineering.
 
 ---
 
+**Summary:**  
+- Use `ps` to identify the running web server name.  
+- Use `ls` on common binary directories to locate it.  
+- Use `grep` on `/etc` or `/etc_ro` to find startup scripts.  
+- Copy it out for analysis or fuzzing.
